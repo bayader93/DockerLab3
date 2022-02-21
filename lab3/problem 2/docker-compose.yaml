@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  node:
+    build: .
+    ports:
+      - "3000:3306"
+    depends_on:
+      - mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT={$DB_PORT}
+    env_file:
+      - .env
+  mysql:
+    platform: linux/x86_64
+    image: mysql
+    env_file:
+      - .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT={$DB_PORT}
+    volumes:
+      - .:/code
